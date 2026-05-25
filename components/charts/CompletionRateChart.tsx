@@ -55,13 +55,26 @@ const renderCustomLabel = (props: any) => {
 };
 
 export default function CompletionRateChart({ data, title = "完了率ランキング" }: CompletionRateChartProps) {
+  if (!data || data.length === 0) {
+    return (
+      <div className="rounded-2xl shadow-lg bg-white p-6">
+        {title && (
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">{title}</h3>
+        )}
+        <div className="flex items-center justify-center h-80 text-gray-500">
+          <p>データがありません</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="rounded-2xl shadow-lg bg-white p-6">
+    <div className="rounded-2xl shadow-lg bg-white p-6 w-full">
       {title && (
         <h3 className="text-lg font-semibold text-gray-900 mb-6">{title}</h3>
       )}
-      
-      <div className="h-80">
+
+      <div className="w-full h-80 min-h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={data}

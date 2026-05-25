@@ -3,6 +3,13 @@ import { mockVideos } from '@/lib/mockData';
 
 export async function GET(request: NextRequest) {
   try {
+    if (!mockVideos || mockVideos.length === 0) {
+      return NextResponse.json(
+        { error: 'No video data available' },
+        { status: 400 }
+      );
+    }
+
     const progressStats = mockVideos.map(video => ({
       videoId: video._id,
       videoTitle: video.title,
@@ -73,7 +80,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error fetching analytics:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch analytics' },
+      { error: 'Failed to fetch analytics', details: String(error) },
       { status: 500 }
     );
   }
